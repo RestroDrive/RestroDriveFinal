@@ -39,7 +39,6 @@ import java.util.List;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapActivity";
-    private static final int ERROR_DIALOGUE_REQUEST = 9001;
 
     //permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -111,29 +110,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             
             Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    /*
-   For checking if google services are enabled or not
-    */
-    public boolean isServicesOk() {
-        Log.d(TAG, "isServicesOk: checking google services version");
-
-        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MapActivity.this);
-
-        if (available == ConnectionResult.SUCCESS) {
-            //user can make map requests
-            Log.d(TAG, "isServicesOk: Google play services are working fine");
-            return true;
-        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
-            //an error occured and we can resolve it
-            Log.d(TAG, "isServicesOk: an error occured but we can fix it");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MapActivity.this, available, ERROR_DIALOGUE_REQUEST);
-            dialog.show();
-        } else {
-            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
-        }
-        return false;
     }
 
     private void getLocationPermission() {
