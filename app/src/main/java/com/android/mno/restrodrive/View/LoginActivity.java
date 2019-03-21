@@ -70,10 +70,10 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (new MapActivity().isServicesOk()) {
+
                     Intent intent = new Intent(LoginActivity.this, MapActivity.class);
                     startActivity(intent);
-                }
+
             }
         });
 
