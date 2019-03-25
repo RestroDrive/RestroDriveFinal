@@ -43,14 +43,14 @@ public class FirebaseLogin {
     public void signIn(String email, String password) {
         Log.d(TAG, "signIn "+ email);
 
-        RestroProgressDialog.getInstance().showProgressDialog(context);
+        ProgressDialog.getInstance().showProgressDialog(context);
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
-                        RestroProgressDialog.getInstance().hideProgressDialog();
+                        ProgressDialog.getInstance().hideProgressDialog();
 
                         if (task.isSuccessful()) {
                             //onAuthSuccess(task.getResult().getUser());
@@ -77,14 +77,14 @@ public class FirebaseLogin {
     public void signUp(String email, String password, final String userName) {
         Log.d(TAG, "signUp "+email);
 
-        RestroProgressDialog.getInstance().showProgressDialog(context);
+        ProgressDialog.getInstance().showProgressDialog(context);
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
-                        RestroProgressDialog.getInstance().hideProgressDialog();
+                        ProgressDialog.getInstance().hideProgressDialog();
 
                         if (task.isSuccessful()) {
                             onSignUpSuccess(task.getResult().getUser(), userName);

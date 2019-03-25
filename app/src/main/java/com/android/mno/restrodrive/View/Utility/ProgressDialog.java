@@ -1,28 +1,25 @@
 package com.android.mno.restrodrive.View.Utility;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Common class for showing ProgressDialog
  */
-public class RestroProgressDialog {
+public class ProgressDialog {
 
-    private ProgressDialog mProgressDialog;
-    private static RestroProgressDialog progressDialogInstance = null;
+    private android.app.ProgressDialog mProgressDialog;
+    private static ProgressDialog progressDialogInstance = null;
 
-    public static RestroProgressDialog getInstance() {
+    public static ProgressDialog getInstance() {
         if (progressDialogInstance == null)
-            progressDialogInstance = new RestroProgressDialog();
+            progressDialogInstance = new ProgressDialog();
 
         return progressDialogInstance;
     }
 
     public void showProgressDialog(Context context) {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(context);
+            mProgressDialog = new android.app.ProgressDialog(context);
             mProgressDialog.setCancelable(false);
             mProgressDialog.setMessage("Loading...");
         }
