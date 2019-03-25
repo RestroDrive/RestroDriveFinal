@@ -1,38 +1,22 @@
 package com.android.mno.restrodrive.View.View;
 
-import android.app.Dialog;
-
 import com.android.mno.restrodrive.R;
 import com.android.mno.restrodrive.View.Adapters.LoginPagerAdapter;
-import com.android.mno.restrodrive.View.CallbackInterfaces.LoginEventListener;
+import com.android.mno.restrodrive.View.Callbacks.LoginEventListener;
 import com.android.mno.restrodrive.View.MapActivity.MapActivity;
 import com.android.mno.restrodrive.View.Utility.FirebaseLogin;
-import com.android.mno.restrodrive.View.Model.UserDetails;
 import com.android.mno.restrodrive.View.Utility.Utility;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity implements LoginEventListener {
 
