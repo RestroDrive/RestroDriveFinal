@@ -73,11 +73,11 @@ public class SignInFragment extends Fragment {
 
             }else{
                 Utility.getInstance().hideSoftKeyboard(getActivity());
-                Utility.getInstance().showSnackbar(fragmentView,getResources().getString(R.string.enter_valid_password));
+                Utility.getInstance().showSnackbar(fragmentView,getResources().getString(R.string.enter_valid_password), getContext());
             }
         }else{
             Utility.getInstance().hideSoftKeyboard(getActivity());
-            Utility.getInstance().showSnackbar(fragmentView,getResources().getString(R.string.enter_valid_email));
+            Utility.getInstance().showSnackbar(fragmentView,getResources().getString(R.string.enter_valid_email), getContext());
         }
     }
 }

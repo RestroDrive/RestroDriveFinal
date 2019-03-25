@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoginEventListen
     public void onLoginSuccess(boolean successFlag) {
 
         View parentLayout = findViewById(android.R.id.content);
-        Utility.getInstance().showSnackbar(parentLayout,"Success");
+        Utility.getInstance().showSnackbar(parentLayout,"Success", this);
 
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(getString(R.string.shared_pref_auth_key), successFlag);
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements LoginEventListen
     public void onLoginError(String errorMessage) {
 
         View parentLayout = findViewById(android.R.id.content);
-        Utility.getInstance().showSnackbar(parentLayout,errorMessage);
+        Utility.getInstance().showSnackbar(parentLayout, errorMessage, this);
     }
 
     @Override

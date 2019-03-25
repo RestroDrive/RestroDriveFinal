@@ -6,14 +6,18 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.mno.restrodrive.R;
 import com.android.mno.restrodrive.View.View.LoginActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.regex.Pattern;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * Utility class for common methods
@@ -79,8 +83,14 @@ public class Utility {
      * @param parentView
      * @param message
      */
-    public void showSnackbar(View parentView, String message){
-        Snackbar.make(parentView, message, Snackbar.LENGTH_LONG).show();
+    public void showSnackbar(View parentView, String message, Context context){
+        Snackbar snackbar = Snackbar.make(parentView, message, Snackbar.LENGTH_LONG);
+        Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
+        TextView textView = layout.findViewById(com.google.android.material.R.id.snackbar_text);
+        //textView.setTextAppearance(android.R.style.TextAppearance_Large);
+        textView.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_light));
+        snackbar.show();
+
     }
 
     /**

@@ -77,15 +77,15 @@ public class SignUpFragment extends Fragment {
 
                 } else {
                     Utility.getInstance().hideSoftKeyboard(getActivity());
-                    Utility.getInstance().showSnackbar(fragmentView, getResources().getString(R.string.enter_valid_password));
+                    Utility.getInstance().showSnackbar(fragmentView, getResources().getString(R.string.enter_valid_password), getContext());
                 }
             } else {
                 Utility.getInstance().hideSoftKeyboard(getActivity());
-                Utility.getInstance().showSnackbar(fragmentView, getResources().getString(R.string.enter_valid_email));
+                Utility.getInstance().showSnackbar(fragmentView, getResources().getString(R.string.enter_valid_email), getContext());
             }
         }else{
             Utility.getInstance().hideSoftKeyboard(getActivity());
-            Utility.getInstance().showSnackbar(fragmentView, getResources().getString(R.string.enter_valid_user_name));
+            Utility.getInstance().showSnackbar(fragmentView, getResources().getString(R.string.enter_valid_user_name), getContext());
         }
     }
 }
