@@ -4,12 +4,16 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.mno.restrodrive.View.Callbacks.LoginEventListener;
+import com.android.mno.restrodrive.R;
+import com.android.mno.restrodrive.View.Callbacks.ILoginEventListener;
 import com.android.mno.restrodrive.View.Model.UserDetails;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,9 +29,9 @@ public class FirebaseLogin {
     private FirebaseAuth mAuth;
     private final String TAG = "FirebaseLogin";
     private Context context;
-    private LoginEventListener loginEventListener;
+    private ILoginEventListener loginEventListener;
 
-    public FirebaseLogin(Context context, LoginEventListener loginEventListener) {
+    public FirebaseLogin(Context context, ILoginEventListener loginEventListener) {
         this.context = context;
         this.loginEventListener = loginEventListener;
 
@@ -90,7 +94,7 @@ public class FirebaseLogin {
                             onSignUpSuccess(task.getResult().getUser(), userName);
 
                             Log.e(TAG, "Success");
-                            loginEventListener.onLoginSuccess(true);
+                            loginEventListener.onLoginSuccess(task.isSuccessful());
                         } else {
                             Toast.makeText(context, "Sign Up Failed",
                                     Toast.LENGTH_SHORT).show();
@@ -102,15 +106,45 @@ public class FirebaseLogin {
                 });
     }
 
-    /**
-     * Method call on sing up success for storing user details
-     * @param user
-     * @param userName
-     */
+    public void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            UserDetails userDetails = new UserDetails(user.getDisplayName(),user.getEmail());
+                            onUpdateUserData(user.getUid(), userDetails);
+                            loginEventListener.onLoginSuccess(task.isSuccessful());
+                        } else {
+                            Log.e(TAG, task.getException().getMessage());
+                            loginEventListener.onLoginError(task.getException().getMessage());
+                        }
+                    }
+                });
+    }
+
     private void onSignUpSuccess(FirebaseUser user, String userName) {
 
         UserDetails userDetails = new UserDetails(userName, user.getEmail());
-        mDatabase.child("users").child(user.getUid()).setValue(userDetails);
+        onUpdateUserData(user.getUid(), userDetails);
+    }
+
+    /**
+     * Updates user data in firebase
+     * @param Uid
+     * @param userDetails
+     */
+    public void onUpdateUserData(String Uid, UserDetails userDetails){
+        mDatabase.child("users").child(Uid).setValue(userDetails);
+    }
+
+    public void signOut() {
+        FirebaseAuth.getInstance().signOut();
     }
 
     /**

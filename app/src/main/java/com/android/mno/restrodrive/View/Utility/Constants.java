@@ -6,4 +6,5 @@ package com.android.mno.restrodrive.View.Utility;
 public class Constants {
 
     public static final int ERROR_DIALOGUE_REQUEST = 9001;
+    public static final int GOOGLE_SIGN_IN = 100;
 }

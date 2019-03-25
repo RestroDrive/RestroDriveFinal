@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.mno.restrodrive.R;
-import com.android.mno.restrodrive.View.Callbacks.LoginEventListener;
+import com.android.mno.restrodrive.View.Callbacks.ILoginEventListener;
 import com.android.mno.restrodrive.View.Utility.FirebaseLogin;
 import com.android.mno.restrodrive.View.Utility.Utility;
 
@@ -21,14 +21,14 @@ public class SignUpFragment extends Fragment {
 
     private final String TAG = "SignUpFragment";
     private View fragmentView;
-    private LoginEventListener loginEventListener;
+    private ILoginEventListener loginEventListener;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if (context instanceof LoginEventListener) {
-            loginEventListener = (LoginEventListener) context;
+        if (context instanceof ILoginEventListener) {
+            loginEventListener = (ILoginEventListener) context;
         } else {
             throw new ClassCastException();
         }
