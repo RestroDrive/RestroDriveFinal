@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "733205460349",
-    "firebase_url": "https://restrodrive.firebaseio.com",
-    "project_id": "restrodrive",
-    "storage_bucket": "restrodrive.appspot.com"
+    "project_number": "1015738555566",
+    "firebase_url": "https://restrodrivefinal-1553542655825.firebaseio.com",
+    "project_id": "restrodrivefinal-1553542655825",
+    "storage_bucket": "restrodrivefinal-1553542655825.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:733205460349:android:081a2c0fd61d6c03",
+        "mobilesdk_app_id": "1:1015738555566:android:081a2c0fd61d6c03",
         "android_client_info": {
           "package_name": "com.android.mno.restrodrive"
         }
       },
       "oauth_client": [
         {
-          "client_id": "733205460349-5ap9rkdvs67h4d3hiokq9evqi24l26ss.apps.googleusercontent.com",
+          "client_id": "1015738555566-ovhbuvvh80ddb0i8roonqtgk2dvcinu0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.android.mno.restrodrive",
-            "certificate_hash": "3456e874f521e538bc853f9ebc7fbe995ab74154"
+            "certificate_hash": "395383a65436f715144a5470660239ea8ff7e653"
           }
         },
         {
-          "client_id": "733205460349-d05lafs8lcoslqlcembtqgsptjqs4mdu.apps.googleusercontent.com",
+          "client_id": "1015738555566-lgr3vej91ab6bplhqalfq5ptrou98hrt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBq9dsm87rQtQ1dtQeoajPut1i4i44vIfQ"
+          "current_key": "AIzaSyCULywF9d68_rz_J02bRd6vRX3_ushZ4pY"
         }
       ],
       "services": {
@@ -40,41 +40,10 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "733205460349-d05lafs8lcoslqlcembtqgsptjqs4mdu.apps.googleusercontent.com",
+              "client_id": "1015738555566-lgr3vej91ab6bplhqalfq5ptrou98hrt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:733205460349:android:b0d6b1721e05dbb3",
-        "android_client_info": {
-          "package_name": "com.android.stopfor"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "733205460349-d05lafs8lcoslqlcembtqgsptjqs4mdu.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBq9dsm87rQtQ1dtQeoajPut1i4i44vIfQ"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

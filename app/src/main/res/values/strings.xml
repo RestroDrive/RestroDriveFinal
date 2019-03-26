@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RestroDrive</string>
+    <string name="app_name">Restro Drive</string>
     <!-- Strings related to login -->
     <string name="prompt_user_name">User Name</string>
     <string name="prompt_email">Email</string>

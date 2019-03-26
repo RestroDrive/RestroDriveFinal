@@ -48,7 +48,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
 
         fragmentView =  inflater.inflate(R.layout.sign_in_fragment, container, false);
 
-        initGoogleClient(getContext());
+        GoogleLogin.getInstance().initGoogleClient(getContext());
 
         fragmentView.findViewById(R.id.emailSignInButton).setOnClickListener(this);
         fragmentView.findViewById(R.id.facebook_login).setOnClickListener(this);
@@ -91,24 +91,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
         if(v.getId() == R.id.emailSignInButton){
             validateLoginDetails();
         }else  if(v.getId() == R.id.facebook_login){
-
+            Utility.getInstance().showSnackbar(fragmentView,"Yet to implement", getContext());
         }else  if(v.getId() == R.id.google_login){
-            googleSignIn(getActivity());
+            GoogleLogin.getInstance().googleSignIn(getActivity());
         }
-    }
-
-    public void initGoogleClient(Context context){
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(context.getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
-    }
-
-    public void googleSignIn(Activity activity) {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        activity.startActivityForResult(signInIntent, Constants.GOOGLE_SIGN_IN);
     }
 }

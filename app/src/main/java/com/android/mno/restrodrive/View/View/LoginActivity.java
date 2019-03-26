@@ -32,9 +32,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginEventListe
     private SharedPreferences sharedPref;
     private FirebaseLogin firebaseLogin;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTheme(R.style.AppTheme);
+
         setContentView(R.layout.activity_login);
 
         firebaseLogin = new FirebaseLogin(this, this);
@@ -44,16 +48,16 @@ public class LoginActivity extends AppCompatActivity implements ILoginEventListe
 
     }
 
-    /*@Override
+    @Override
     protected void onStart() {
         super.onStart();
 
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        /*GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(account != null){
             //goToMapActivity();
             Log.d(TAG, "123");
-        }
-    }*/
+        }*/
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
