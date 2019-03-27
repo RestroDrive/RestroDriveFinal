@@ -2,6 +2,7 @@ package com.android.mno.restrodrive.View.MapActivity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,6 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.model.Direction;
+import com.akexorcist.googledirection.model.Leg;
+import com.akexorcist.googledirection.model.Route;
+import com.akexorcist.googledirection.model.Step;
+import com.akexorcist.googledirection.util.DirectionConverter;
 import com.android.mno.restrodrive.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -21,6 +29,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -33,7 +44,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, DirectionCallback {
 
     private static final String TAG = "MapActivity";
 
@@ -43,20 +54,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 15f;
 
+    // Google Maps API Key
+    private static final String GOOGLE_MAPS_API_KEY = "AIzaSyCULywF9d68_rz_J02bRd6vRX3_ushZ4pY";
+
     //variables
     private Boolean mLocationPermissionGranted = false;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProvideClient;
 
     //widgets
-    private EditText mSearchText;
+    private EditText mOriginSearchText;
+    private EditText mDestinationSearchText;
+
+    // Longitudes and Latitudes
+    LatLng mOriginCoordinates;
+    LatLng mDestinationCoordinates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        mSearchText = findViewById(R.id.input_search);
+        mOriginSearchText = findViewById(R.id.origin_search_input);
+        mDestinationSearchText = findViewById(R.id.dest_search_input);
 
         getLocationPermission();
         init();
@@ -68,7 +88,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void init(){
         Log.d(TAG, "init: initializing");
 
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mOriginSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
                 if(actionId == EditorInfo.IME_ACTION_SEARCH
@@ -77,36 +97,111 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
 
                     //execute our method for searching
-                    geoLocate();
+                    final String searchString = mOriginSearchText.getText().toString();
+                    //mOriginSearchText.setText(searchString);
+
+                    mOriginCoordinates = geoLocateLocation(searchString);
+
+                    if (mOriginCoordinates == null) {
+                        Toast.makeText(MapActivity.this, "Place Not Found", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+
+                    moveCamera(mOriginCoordinates, DEFAULT_ZOOM);
+                }
+                return false;
+            }
+        });
+
+        mDestinationSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
+
+                    // Find direction to destination from origin
+                    final String searchString = mDestinationSearchText.getText().toString();
+
+                    mDestinationCoordinates = geoLocateLocation(searchString);
+
+                    if (mDestinationCoordinates == null) {
+                        Toast.makeText(MapActivity.this, "Destination Not Found", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+
+                    showDirection(mOriginCoordinates, mDestinationCoordinates);
                 }
                 return false;
             }
         });
     }
 
-    private void geoLocate(){
-        Log.d(TAG, "geoLocate: geolocating");
+    private void showDirection(LatLng origin, LatLng destination) {
+        if (origin == null || destination == null) {
+            Toast.makeText(this, "Direction cannot be calculated", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        String searchString = mSearchText.getText().toString();
+        GoogleDirection.withServerKey(GOOGLE_MAPS_API_KEY).from(origin).to(destination).execute(this);
+    }
+
+    @Override
+    public void onDirectionSuccess(Direction direction, String rawBody) {
+        if (direction.isOK()) {
+            Route route = direction.getRouteList().get(0);
+            Leg leg = route.getLegList().get(0);
+            ArrayList<LatLng> sectionPositionList = leg.getSectionPoint();
+
+            for (LatLng position : sectionPositionList) {
+                mMap.addMarker(new MarkerOptions().position(position));
+            }
+
+            List<Step> stepList = leg.getStepList();
+            ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(this, stepList, 5, Color.RED, 3, Color.BLUE);
+
+            for (PolylineOptions polylineOption : polylineOptionList) {
+                mMap.addPolyline(polylineOption);
+            }
+            setCameraWithCoordinationBounds(route);
+
+        } else {
+            Toast.makeText(MapActivity.this, "Direction Not Found", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setCameraWithCoordinationBounds(Route route) {
+        LatLng southwest = route.getBound().getSouthwestCoordination().getCoordination();
+        LatLng northeast = route.getBound().getNortheastCoordination().getCoordination();
+        LatLngBounds bounds = new LatLngBounds(southwest, northeast);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+    }
+
+    @Override
+    public void onDirectionFailure(Throwable t) {
+
+    }
+
+    private LatLng geoLocateLocation(String locationAddress) {
+        Log.d(TAG, "geoLocateLocation: geolocating " + locationAddress);
 
         Geocoder geocoder = new Geocoder(MapActivity.this);
-
         List<Address> list = new ArrayList<>();
 
-        try{
-            list = geocoder.getFromLocationName(searchString,1);
-
-        }catch (IOException e){
-            Log.e(TAG, "geoLocate: IO Exception" + e.getMessage() );
+        try {
+            list = geocoder.getFromLocationName(locationAddress,1);
+        } catch (IOException e){
+            Log.e(TAG, "geoLocateLocation: IO Exception" + e.getMessage());
         }
 
         if (list.size() > 0){
             Address address = list.get(0);
-
-            Log.d(TAG, "geoLocate: found a location" + address.toString());
-            
-            Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "geoLocateLocation: found a location" + address.toString());
+            return new LatLng(address.getLatitude(), address.getLongitude());
         }
+
+        return null;
     }
 
     private void getLocationPermission() {
@@ -195,7 +290,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private void moveCamera(LatLng latLng,float zoom){
+    private void moveCamera(@NonNull LatLng latLng, float zoom){
         Log.d(TAG, "moveCamera: moving the camera to " + latLng.latitude + "long," + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
