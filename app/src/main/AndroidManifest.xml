@@ -24,7 +24,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".restrodrive.View.MapActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="true"></activity>
 
         <activity android:name=".restrodrive.View.WelcomeActivity"
             android:screenOrientation="portrait">
