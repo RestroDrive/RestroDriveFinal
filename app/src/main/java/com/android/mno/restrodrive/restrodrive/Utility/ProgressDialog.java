@@ -10,6 +10,8 @@ public class ProgressDialog {
     private android.app.ProgressDialog mProgressDialog;
     private static ProgressDialog progressDialogInstance = null;
 
+    private ProgressDialog (){}
+
     public static ProgressDialog getInstance() {
         if (progressDialogInstance == null)
             progressDialogInstance = new ProgressDialog();
