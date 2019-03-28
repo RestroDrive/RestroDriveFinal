@@ -55,7 +55,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final float DEFAULT_ZOOM = 15f;
 
     // Google Maps API Key
-    private static final String GOOGLE_MAPS_API_KEY = "AIzaSyCULywF9d68_rz_J02bRd6vRX3_ushZ4pY";
+    private static final String GOOGLE_MAPS_API_KEY = "AIzaSyBVBhNMZn7y8bh3la5FKpmHfy_d3zEdP9M";
 
     //variables
     private Boolean mLocationPermissionGranted = false;
