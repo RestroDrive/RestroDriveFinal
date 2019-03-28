@@ -23,22 +23,25 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".View.MapActivity.MapActivity"
+        <activity android:name=".restrodrive.View.MapActivity"
             android:screenOrientation="portrait"></activity>
 
-        <activity
-            android:name=".View.View.RestaurantListActivity"
-            android:label="@string/title_activity_restaurantlist_view"></activity>
-        <activity
-            android:name=".View.View.LoginActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name">
+        <activity android:name=".restrodrive.View.WelcomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".restrodrive.View.RestaurantListActivity"
+            android:label="@string/title_activity_restaurantlist_view"></activity>
+        <activity
+            android:name=".restrodrive.View.LoginActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"/>
     </application>
 
 </manifest>

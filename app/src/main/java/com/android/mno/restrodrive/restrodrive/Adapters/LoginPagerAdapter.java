@@ -1,7 +1,7 @@
-package com.android.mno.restrodrive.View.Adapters;
+package com.android.mno.restrodrive.restrodrive.Adapters;
 
-import com.android.mno.restrodrive.View.View.SignInFragment;
-import com.android.mno.restrodrive.View.View.SignUpFragment;
+import com.android.mno.restrodrive.restrodrive.View.SignInFragment;
+import com.android.mno.restrodrive.restrodrive.View.SignUpFragment;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

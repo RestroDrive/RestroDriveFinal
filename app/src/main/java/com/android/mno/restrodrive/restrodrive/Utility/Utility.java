@@ -1,4 +1,4 @@
-package com.android.mno.restrodrive.View.Utility;
+package com.android.mno.restrodrive.restrodrive.Utility;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -9,8 +9,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.mno.restrodrive.R;
-import com.android.mno.restrodrive.View.View.LoginActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.snackbar.Snackbar;
@@ -98,8 +96,11 @@ public class Utility {
      * @param activity
      */
     public void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+
+        if(activity.getCurrentFocus().getWindowToken() != null){
+            InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
     }
 
     /**

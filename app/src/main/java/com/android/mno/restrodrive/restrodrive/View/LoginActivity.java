@@ -1,16 +1,14 @@
-package com.android.mno.restrodrive.View.View;
+package com.android.mno.restrodrive.restrodrive.View;
 
 import com.android.mno.restrodrive.R;
-import com.android.mno.restrodrive.View.Adapters.LoginPagerAdapter;
-import com.android.mno.restrodrive.View.Callbacks.ILoginEventListener;
-import com.android.mno.restrodrive.View.MapActivity.MapActivity;
-import com.android.mno.restrodrive.View.Utility.Constants;
-import com.android.mno.restrodrive.View.Utility.FirebaseLogin;
-import com.android.mno.restrodrive.View.Utility.Utility;
+import com.android.mno.restrodrive.restrodrive.Adapters.LoginPagerAdapter;
+import com.android.mno.restrodrive.restrodrive.Callbacks.ILoginEventListener;
+import com.android.mno.restrodrive.restrodrive.Utility.Constants;
+import com.android.mno.restrodrive.restrodrive.Helper.FirebaseLogin;
+import com.android.mno.restrodrive.restrodrive.Utility.PrefManager;
+import com.android.mno.restrodrive.restrodrive.Utility.Utility;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
@@ -19,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,7 +28,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginEventListe
     private static final String TAG = "LoginActivity";
     private SharedPreferences sharedPref;
     private FirebaseLogin firebaseLogin;
-
+    private PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,25 +120,20 @@ public class LoginActivity extends AppCompatActivity implements ILoginEventListe
      */
     private void checkSharedPrefAuth(){
 
-        sharedPref = this.getSharedPreferences(
-                getString(R.string.login_shared_pref_key), Context.MODE_PRIVATE);
+        prefManager = new PrefManager(this, Constants.LOGIN_SHARED_PREF_KEY);
 
-        boolean auth = sharedPref.getBoolean(getString(R.string.shared_pref_auth_key), false);
-
-        if(auth){
+        if (prefManager.isAuthAlreadyLogin()) {
             goToMapActivity();
         }
     }
 
     @Override
-    public void onLoginSuccess(boolean successFlag) {
+    public void onLoginSuccess(boolean authLogin) {
 
         View parentLayout = findViewById(android.R.id.content);
         Utility.getInstance().showSnackbar(parentLayout,"Success", this);
 
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putBoolean(getString(R.string.shared_pref_auth_key), successFlag);
-        editor.apply();
+        prefManager.setAuthLogin(authLogin);
 
         goToMapActivity();
     }

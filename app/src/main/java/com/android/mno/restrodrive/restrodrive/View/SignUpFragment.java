@@ -1,4 +1,4 @@
-package com.android.mno.restrodrive.View.View;
+package com.android.mno.restrodrive.restrodrive.View;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,9 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.mno.restrodrive.R;
-import com.android.mno.restrodrive.View.Callbacks.ILoginEventListener;
-import com.android.mno.restrodrive.View.Utility.FirebaseLogin;
-import com.android.mno.restrodrive.View.Utility.Utility;
+import com.android.mno.restrodrive.restrodrive.Callbacks.ILoginEventListener;
+import com.android.mno.restrodrive.restrodrive.Helper.FirebaseLogin;
+import com.android.mno.restrodrive.restrodrive.Utility.Utility;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

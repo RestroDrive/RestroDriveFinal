@@ -1,24 +1,18 @@
-package com.android.mno.restrodrive.View.View;
+package com.android.mno.restrodrive.restrodrive.View;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.mno.restrodrive.R;
-import com.android.mno.restrodrive.View.Callbacks.ILoginEventListener;
-import com.android.mno.restrodrive.View.Utility.Constants;
-import com.android.mno.restrodrive.View.Utility.FirebaseLogin;
-import com.android.mno.restrodrive.View.Utility.GoogleLogin;
-import com.android.mno.restrodrive.View.Utility.Utility;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.android.mno.restrodrive.restrodrive.Callbacks.ILoginEventListener;
+import com.android.mno.restrodrive.restrodrive.Helper.FirebaseLogin;
+import com.android.mno.restrodrive.restrodrive.Helper.GoogleLogin;
+import com.android.mno.restrodrive.restrodrive.Utility.Utility;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

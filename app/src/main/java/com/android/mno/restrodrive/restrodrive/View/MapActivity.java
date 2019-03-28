@@ -1,4 +1,4 @@
-package com.android.mno.restrodrive.View.MapActivity;
+package com.android.mno.restrodrive.restrodrive.View;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

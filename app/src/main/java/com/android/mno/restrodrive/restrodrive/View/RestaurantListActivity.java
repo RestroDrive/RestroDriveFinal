@@ -1,12 +1,12 @@
-package com.android.mno.restrodrive.View.View;
+package com.android.mno.restrodrive.restrodrive.View;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.mno.restrodrive.R;
-import com.android.mno.restrodrive.View.Adapters.RVAdapter;
-import com.android.mno.restrodrive.View.Utility.Constants;
-import com.android.mno.restrodrive.View.Utility.Restaurant;
+import com.android.mno.restrodrive.restrodrive.Adapters.RVAdapter;
+import com.android.mno.restrodrive.restrodrive.Utility.Constants;
+import com.android.mno.restrodrive.restrodrive.Helper.Restaurant;
 
 import java.util.ArrayList;
 import java.util.List;

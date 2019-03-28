@@ -1,4 +1,4 @@
-package com.android.mno.restrodrive.View.Callbacks;
+package com.android.mno.restrodrive.restrodrive.Callbacks;
 
 /**
  * Callback listener for login events

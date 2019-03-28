@@ -1,4 +1,4 @@
-package com.android.mno.restrodrive.View.Utility;
+package com.android.mno.restrodrive.restrodrive.Utility;
 
 import android.content.Context;
 

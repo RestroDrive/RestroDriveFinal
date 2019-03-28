@@ -1,4 +1,4 @@
-package com.android.mno.restrodrive.View.Adapters;
+package com.android.mno.restrodrive.restrodrive.Adapters;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.mno.restrodrive.R;
-import com.android.mno.restrodrive.View.Utility.Restaurant;
+import com.android.mno.restrodrive.restrodrive.Helper.Restaurant;
 
 import java.util.List;
 

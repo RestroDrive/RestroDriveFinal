@@ -26,4 +26,21 @@
     <string name="shared_pref_auth_key">auth</string>
     <string name="google_sign_in_failed">Google sign in failed</string>
     <string name="title_activity_restaurantlist_view">RecyclerViewDemo</string>
+
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Restro 1</string>
+    <string name="slide_1_desc">The easiest way</string>
+
+    <string name="slide_2_title">Restro 2</string>
+    <string name="slide_2_desc">The easiest way</string>
+
+    <string name="slide_3_title">Restro 3</string>
+    <string name="slide_3_desc">The easiest way</string>
+
+    <string name="slide_4_title">Restro 4</string>
+    <string name="slide_4_desc">The easiest way</string>
+
 </resources>

@@ -1,12 +1,12 @@
-package com.android.mno.restrodrive.View.Utility;
+package com.android.mno.restrodrive.restrodrive.Helper;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.mno.restrodrive.R;
-import com.android.mno.restrodrive.View.Callbacks.ILoginEventListener;
-import com.android.mno.restrodrive.View.Model.UserDetails;
+import com.android.mno.restrodrive.restrodrive.Callbacks.ILoginEventListener;
+import com.android.mno.restrodrive.restrodrive.Model.UserDetails;
+import com.android.mno.restrodrive.restrodrive.Utility.ProgressDialog;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

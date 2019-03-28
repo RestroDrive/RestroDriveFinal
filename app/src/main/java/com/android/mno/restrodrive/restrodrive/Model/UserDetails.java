@@ -1,4 +1,4 @@
-package com.android.mno.restrodrive.View.Model;
+package com.android.mno.restrodrive.restrodrive.Model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
