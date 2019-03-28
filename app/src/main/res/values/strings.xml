@@ -25,4 +25,5 @@
     <string name="login_shared_pref_key">com.android.mno.restrodrive.login_pref</string>
     <string name="shared_pref_auth_key">auth</string>
     <string name="google_sign_in_failed">Google sign in failed</string>
+    <string name="title_activity_restaurantlist_view">RecyclerViewDemo</string>
 </resources>
