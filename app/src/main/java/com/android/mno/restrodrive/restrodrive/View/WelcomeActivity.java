@@ -38,6 +38,8 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         // Checking for first time launch - before calling setContentView()
         prefManager = new PrefManager(this, Constants.WELCOME_SHARED_PREF_KEY);
         if (!prefManager.isFirstTimeLaunch()) {

@@ -65,7 +65,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final float DEFAULT_ZOOM = 15f;
 
     // Google Maps API Key
-    private static final String GOOGLE_MAPS_API_KEY = "AIzaSyBVBhNMZn7y8bh3la5FKpmHfy_d3zEdP9M";
+    private static final String GOOGLE_MAPS_API_KEY = "AIzaSyBRGMS7YNI2_oXvPlBn7p7f3rSlAoT74WI";
 
     //variables
     private Boolean mLocationPermissionGranted = false;
@@ -164,6 +164,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Leg leg = route.getLegList().get(0);
             ArrayList<LatLng> sectionPositionList = leg.getSectionPoint();
 
+
             for (LatLng position : sectionPositionList) {
                 mMap.addMarker(new MarkerOptions().position(position));
             }
@@ -177,6 +178,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             setCameraWithCoordinationBounds(route);
 
         } else {
+            Log.d(TAG, "DNot: " + rawBody);
             Toast.makeText(MapActivity.this, "Direction Not Found", Toast.LENGTH_LONG).show();
         }
     }
