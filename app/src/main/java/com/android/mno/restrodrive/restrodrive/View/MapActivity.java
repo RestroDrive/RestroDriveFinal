@@ -291,7 +291,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                                 moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
 
-                                showPlaces();
+                                //showPlaces();
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
@@ -317,7 +317,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**
      * Shows nearby places
      */
-    private void showPlaces(){
+   /* private void showPlaces(){
 
         // Initialize Places.
         Places.initialize(getApplicationContext(), GOOGLE_MAPS_API_KEY);
@@ -356,5 +356,5 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             // See https://developer.android.com/training/permissions/requesting
             getLocationPermission();
         }
-    }
+    }*/
 }
