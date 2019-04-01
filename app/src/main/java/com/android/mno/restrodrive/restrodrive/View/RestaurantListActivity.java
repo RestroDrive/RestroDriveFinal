@@ -1,14 +1,12 @@
 package com.android.mno.restrodrive.restrodrive.View;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.mno.restrodrive.R;
 import com.android.mno.restrodrive.restrodrive.Adapters.RVAdapter;
-import com.android.mno.restrodrive.restrodrive.Utility.Constants;
 import com.android.mno.restrodrive.restrodrive.Helper.Restaurant;
+import com.android.mno.restrodrive.restrodrive.Utility.Utility;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,23 +26,14 @@ public class RestaurantListActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
-        //initializeData();
-        Intent intent = getIntent();
-        Object object = intent.getSerializableExtra(Constants.RestaurantData);
-        List<Restaurant> restaurants = (List<Restaurant>)object;
-
+        List<Restaurant> restaurants = Utility.getInstance().initializeRestaurantList();
         RVAdapter adapter = new RVAdapter(restaurants);
         rv.setAdapter(adapter);
 
     }
 
-    private List<Restaurant> restaurants;
 
-    private void initializeData(){
-        restaurants = new ArrayList<Restaurant>();
-        restaurants.add(new Restaurant("Persis Biryani", "1665 Stelton Rd, Piscataway Township, NJ 08854", "4.8 Star", R.drawable.veg));
-        restaurants.add(new Restaurant("Paradise Biryani", "1980 NJ-27, North Brunswick Township, NJ 08902", "4.3 Star", R.drawable.veg));
-        restaurants.add(new Restaurant("Bawarchi Biryani", "3201 NJ-27, Franklin Park, NJ 08823", "4.1 Star", R.drawable.veg));
-    }
+
+
 
 }
