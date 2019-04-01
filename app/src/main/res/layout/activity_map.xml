@@ -50,4 +50,11 @@
             android:hint="Enter Destination Address, City, ZipCode"/>
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:onClick="nextClick"/>
+
 </RelativeLayout>

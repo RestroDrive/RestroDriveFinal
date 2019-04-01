@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RestaurantListActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,18 +21,11 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
 
-
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
         List<Restaurant> restaurants = Utility.getInstance().initializeRestaurantList();
         RVAdapter adapter = new RVAdapter(restaurants);
         rv.setAdapter(adapter);
-
     }
-
-
-
-
-
 }
