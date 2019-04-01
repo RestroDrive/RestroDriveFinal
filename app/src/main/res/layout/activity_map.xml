@@ -13,7 +13,13 @@
         android:id="@+id/map"
         tools:context=".MapsActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment" />
-    
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restaurants"
+        android:id="@+id/btnRestaurant"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"

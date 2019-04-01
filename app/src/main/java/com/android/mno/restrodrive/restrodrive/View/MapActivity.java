@@ -24,6 +24,7 @@ import com.akexorcist.googledirection.model.Route;
 import com.akexorcist.googledirection.model.Step;
 import com.akexorcist.googledirection.util.DirectionConverter;
 import com.android.mno.restrodrive.R;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -36,9 +37,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.PlaceLikelihood;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -88,6 +96,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         mOriginSearchText = findViewById(R.id.origin_search_input);
         mDestinationSearchText = findViewById(R.id.dest_search_input);
+
+        findViewById(R.id.btnRestaurant).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showPlaces();
+            }
+        });
 
         getLocationPermission();
         init();
@@ -291,8 +307,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             try {
 
                                 moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
-
-                                //showPlaces();
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
@@ -324,7 +338,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**
      * Shows nearby places
      */
-   /* private void showPlaces(){
+   private void showPlaces(){
 
         // Initialize Places.
         Places.initialize(getApplicationContext(), GOOGLE_MAPS_API_KEY);
@@ -333,7 +347,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         PlacesClient placesClient = Places.createClient(this);
 
         // Use fields to define the data types to return.
-        List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME);
+        List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG,
+        Place.Field.RATING, Place.Field.TYPES, Place.Field.PHOTO_METADATAS);
 
         // Use the builder to create a FindCurrentPlaceRequest.
         FindCurrentPlaceRequest request =
@@ -346,9 +361,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if (task.isSuccessful()){
                     FindCurrentPlaceResponse response = task.getResult();
                     for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-                        Log.e(TAG, String.format("Place '%s' has likelihood: %f",
-                                placeLikelihood.getPlace().getName(),
-                                placeLikelihood.getLikelihood()));
+
+                        Log.e(TAG, "Place Name "+
+                                placeLikelihood.getPlace().getName());
+                        Log.e(TAG,         "Place Address "+
+                                placeLikelihood.getPlace().getAddress());
+                        Log.e(TAG,       "Place LatLang "+
+                                placeLikelihood.getPlace().getLatLng());
+                        Log.e(TAG,      "Place Rating "+
+                                placeLikelihood.getPlace().getRating());
+                        Log.e(TAG,    "Place Types "+
+                                placeLikelihood.getPlace().getTypes());
+                        Log.e(TAG,   "Place Photo "+
+                                placeLikelihood.getPlace().getPhotoMetadatas());
+                        Log.e(TAG,    "Place Likehood "+
+                                placeLikelihood.getLikelihood());
+
+                        Log.d(TAG, "---------------");
                     }
                 } else {
                     Exception exception = task.getException();
@@ -363,5 +392,5 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             // See https://developer.android.com/training/permissions/requesting
             getLocationPermission();
         }
-    }*/
+    }
 }
