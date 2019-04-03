@@ -12,12 +12,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:animateLayoutChanges="true"
+            android:padding="2dp"
             >
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="70dp"
                 android:id="@+id/resto_photo"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="8dp"
@@ -32,10 +33,18 @@
                 android:textSize="30sp"
                 />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/drop_down"
+                android:src="@drawable/arrow_down"
+                android:layout_alignParentRight="true"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/resto_star"
+                android:visibility="gone"
                 android:layout_toRightOf="@+id/resto_photo"
                 android:layout_below="@+id/resto_name"
                 />
@@ -44,6 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/resto_address"
+                android:visibility="gone"
                 android:layout_toRightOf="@+id/resto_photo"
                 android:layout_below="@+id/resto_star"
                 />
