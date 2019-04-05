@@ -10,6 +10,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -43,6 +45,8 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.firebase.auth.FirebaseAuth;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -107,8 +111,38 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         getLocationPermission();
         init();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.option_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.account:
+                return true;
+            case R.id.help:
+                return true;
+            case R.id.about:
+                return true;
+            case R.id.sign_out:
+                if (FirebaseAuth.getInstance() != null) {
+                    FirebaseAuth.getInstance().signOut();
+                    finish();
+
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
     /*
     For making keyboard enter key as Done deal
      */
@@ -338,7 +372,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**
      * Shows nearby places
      */
-   private void showPlaces(){
+    private void showPlaces(){
 
         // Initialize Places.
         Places.initialize(getApplicationContext(), GOOGLE_MAPS_API_KEY);
@@ -348,7 +382,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Use fields to define the data types to return.
         List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG,
-        Place.Field.RATING, Place.Field.TYPES, Place.Field.PHOTO_METADATAS);
+                Place.Field.RATING, Place.Field.TYPES, Place.Field.PHOTO_METADATAS);
 
         // Use the builder to create a FindCurrentPlaceRequest.
         FindCurrentPlaceRequest request =

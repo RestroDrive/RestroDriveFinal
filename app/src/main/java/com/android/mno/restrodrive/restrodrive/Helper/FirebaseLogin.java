@@ -1,9 +1,12 @@
 package com.android.mno.restrodrive.restrodrive.Helper;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.mno.restrodrive.R;
 import com.android.mno.restrodrive.restrodrive.Callbacks.ILoginEventListener;
 import com.android.mno.restrodrive.restrodrive.Model.UserDetails;
 import com.android.mno.restrodrive.restrodrive.Utility.ProgressDialog;
@@ -94,7 +97,17 @@ public class FirebaseLogin {
                             onSignUpSuccess(task.getResult().getUser(), userName);
 
                             Log.e(TAG, "Success");
-                            loginEventListener.onLoginSuccess(task.isSuccessful());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Sign Up Success")
+                                    .setMessage("Sign up successful. Please click ok to continue")
+                                    .setCancelable(false)
+                                    .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            loginEventListener.onLoginSuccess(task.isSuccessful());
+                                        }
+                                    });
+                            builder.create().show();
                         } else {
                             Toast.makeText(context, "Sign Up Failed",
                                     Toast.LENGTH_SHORT).show();

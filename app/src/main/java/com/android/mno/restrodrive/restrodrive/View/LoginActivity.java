@@ -13,6 +13,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
@@ -141,8 +142,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginEventListe
     @Override
     public void onLoginError(String errorMessage) {
 
-        View parentLayout = findViewById(android.R.id.content);
-        Utility.getInstance().showSnackbar(parentLayout, errorMessage, this);
+        //View parentLayout = findViewById(android.R.id.content);
+        //Utility.getInstance().showSnackbar(parentLayout, errorMessage, this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Error")
+                .setMessage(errorMessage)
+                .setCancelable(false)
+                .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss());
+        builder.create().show();
     }
 
     @Override

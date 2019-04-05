@@ -43,4 +43,9 @@
     <string name="slide_4_title">Restro 4</string>
     <string name="slide_4_desc">The easiest way</string>
 
+    <string name="account">Account</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="ok">ok</string>
 </resources>
