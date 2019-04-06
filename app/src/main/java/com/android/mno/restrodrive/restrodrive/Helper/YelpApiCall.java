@@ -30,6 +30,7 @@ public class YelpApiCall implements INearbyPlaces {
     private static final String TAG = "YelpApiCall";
     private YelpFusionApiFactory yelpFusionApiFactory;
     private YelpFusionApi yelpFusionApi;
+    private ArrayList<Business> businessArrayList;
 
     private String yelpApiKey = "L_xfihdZKMoy9sGtkjJRFlBZDn-TUvu5l4CmO2FUUEuQCJBVI96RTbOAq1kxlLjwnMyn5FfbKQAgHcnJM_jG4Z9mBS9rfKkjvXtIugR1IA9DDgokLxBV9ktt2BSmXHYx";
 
@@ -49,7 +50,7 @@ public class YelpApiCall implements INearbyPlaces {
      * @param lon
      * @param filter
      */
-    private void yelpApiBusinessSearch(Double lat, Double lon, Filter filter){
+    private List<Business> yelpApiBusinessSearch(Double lat, Double lon, Filter filter){
 
         Map<String, String> parms = new HashMap<>();
         parms.put("term", filter.getBusinessType()+" "+filter.getGetBusinessSubType());
@@ -64,7 +65,7 @@ public class YelpApiCall implements INearbyPlaces {
 
                 int totalNumberOfResult = searchResponse.getTotal();
 
-                ArrayList<Business> businessArrayList = searchResponse.getBusinesses();
+                businessArrayList = searchResponse.getBusinesses();
 
                 Log.e(TAG, "totalNumberOfResult - "+totalNumberOfResult);
                 Log.d(TAG, "-----------------");
@@ -123,6 +124,8 @@ public class YelpApiCall implements INearbyPlaces {
         };
 
         call.enqueue(callback);
+
+        return null;
     }
 
     private void yelpApiBusinessReviews(String id, String businessName){
@@ -165,8 +168,6 @@ public class YelpApiCall implements INearbyPlaces {
     @Override
     public List<Business> getNearbyPlaces(double lat, double lon, Filter filter) {
 
-        yelpApiBusinessSearch(lat, lon, filter);
-
-        return null;
+        return yelpApiBusinessSearch(lat, lon, filter);
     }
 }
