@@ -2,7 +2,7 @@ package com.android.mno.restrodrive.restrodrive.Helper;
 
 import android.util.Log;
 
-import com.android.mno.restrodrive.restrodrive.INearbyPlaces;
+import com.android.mno.restrodrive.restrodrive.Callbacks.INearbyPlaces;
 import com.android.mno.restrodrive.restrodrive.Model.Business;
 import com.android.mno.restrodrive.restrodrive.Model.Category;
 import com.android.mno.restrodrive.restrodrive.Model.Coordinates;
@@ -25,16 +25,19 @@ import retrofit2.Response;
 /**
  * Class for searching places using Yelp API
  */
-public class YelpApiCall implements INearbyPlaces {
+public class YelpApiCall {
 
     private static final String TAG = "YelpApiCall";
     private YelpFusionApiFactory yelpFusionApiFactory;
     private YelpFusionApi yelpFusionApi;
-    private ArrayList<Business> businessArrayList;
 
     private String yelpApiKey = "L_xfihdZKMoy9sGtkjJRFlBZDn-TUvu5l4CmO2FUUEuQCJBVI96RTbOAq1kxlLjwnMyn5FfbKQAgHcnJM_jG4Z9mBS9rfKkjvXtIugR1IA9DDgokLxBV9ktt2BSmXHYx";
 
-    public YelpApiCall(){
+    private INearbyPlaces iNearbyPlaces;
+
+    public YelpApiCall(INearbyPlaces iNearbyPlaces){
+
+        this.iNearbyPlaces = iNearbyPlaces;
 
         try {
             yelpFusionApiFactory = new YelpFusionApiFactory();
@@ -50,7 +53,7 @@ public class YelpApiCall implements INearbyPlaces {
      * @param lon
      * @param filter
      */
-    private List<Business> yelpApiBusinessSearch(Double lat, Double lon, Filter filter){
+    public List<Business> yelpApiBusinessSearch(Double lat, Double lon, Filter filter){
 
         Map<String, String> parms = new HashMap<>();
         parms.put("term", filter.getBusinessType()+" "+filter.getGetBusinessSubType());
@@ -65,7 +68,7 @@ public class YelpApiCall implements INearbyPlaces {
 
                 int totalNumberOfResult = searchResponse.getTotal();
 
-                businessArrayList = searchResponse.getBusinesses();
+                ArrayList<Business> businessArrayList = searchResponse.getBusinesses();
 
                 Log.e(TAG, "totalNumberOfResult - "+totalNumberOfResult);
                 Log.d(TAG, "-----------------");
@@ -113,7 +116,8 @@ public class YelpApiCall implements INearbyPlaces {
                     Log.d(TAG, "-----------------");
                 }
 
-                getList(businessArrayList);
+                iNearbyPlaces.getNearbyPlaces(businessArrayList);
+
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -161,17 +165,5 @@ public class YelpApiCall implements INearbyPlaces {
 
 
         call.enqueue(callback);
-    }
-
-
-    @Override
-    public List<Business> getNearbyPlaces(double lat, double lon, Filter filter) {
-
-        return yelpApiBusinessSearch(lat, lon, filter);
-    }
-
-    private List<Business> getList(List<Business> business){
-
-        return business;
     }
 }

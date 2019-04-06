@@ -26,9 +26,11 @@ import com.akexorcist.googledirection.model.Route;
 import com.akexorcist.googledirection.model.Step;
 import com.akexorcist.googledirection.util.DirectionConverter;
 import com.android.mno.restrodrive.R;
+import com.android.mno.restrodrive.restrodrive.Callbacks.INearbyPlaces;
 import com.android.mno.restrodrive.restrodrive.Helper.Filter;
 import com.android.mno.restrodrive.restrodrive.Helper.FirebaseLogin;
 import com.android.mno.restrodrive.restrodrive.Helper.YelpApiCall;
+import com.android.mno.restrodrive.restrodrive.Model.Business;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -56,7 +58,7 @@ import androidx.core.content.ContextCompat;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, DirectionCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, DirectionCallback, INearbyPlaces {
 
     private static final String TAG = "MapActivity";
 
@@ -94,13 +96,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
 
-                YelpApiCall yelpApiCall = new YelpApiCall();
+                YelpApiCall yelpApiCall = new YelpApiCall(MapActivity.this);
 
                 Filter filter = new Filter();
                 filter.setBusinessType("Restaurants");
                 filter.setGetBusinessSubType("Italian");
 
-                yelpApiCall.getNearbyPlaces(40.666210,-74.409096, filter);
+                yelpApiCall.yelpApiBusinessSearch(40.666210,-74.409096, filter);
             }
         });
 
@@ -361,5 +363,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Intent i = new Intent(this, RestaurantListActivity.class);
 
         startActivity(i);
+    }
+
+    @Override
+    public void getNearbyPlaces(List<Business> businessArrayList) {
+
+        String businessName = businessArrayList.get(0).getName();
+
+        Log.e(TAG, "In MapActivity first businessName - "+businessName);
+
     }
 }

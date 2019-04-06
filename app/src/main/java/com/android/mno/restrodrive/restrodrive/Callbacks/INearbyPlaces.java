@@ -1,4 +1,4 @@
-package com.android.mno.restrodrive.restrodrive;
+package com.android.mno.restrodrive.restrodrive.Callbacks;
 
 import com.android.mno.restrodrive.restrodrive.Model.Business;
 import com.android.mno.restrodrive.restrodrive.Helper.Filter;
@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface INearbyPlaces {
 
-    List<Business> getNearbyPlaces(double lat, double lon, Filter filter);
+    void getNearbyPlaces(List<Business> businessArrayList);
 
 }
