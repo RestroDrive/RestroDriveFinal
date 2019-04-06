@@ -21,5 +21,5 @@ public interface YelpFusionApi {
     Call<Business> getBusiness(@Path("id") String id);
 
     @GET("/v3/businesses/{id}/reviews")
-    Call<Reviews> getBusinessReviews(@Path("id") String id, @Query("locale") String locale);
+    Call<Reviews> getBusinessReviews(@Path("id") String id);
 }

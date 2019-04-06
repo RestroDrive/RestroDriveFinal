@@ -8,6 +8,8 @@ import com.android.mno.restrodrive.restrodrive.Model.Category;
 import com.android.mno.restrodrive.restrodrive.Model.Coordinates;
 import com.android.mno.restrodrive.restrodrive.Model.Hour;
 import com.android.mno.restrodrive.restrodrive.Model.Location;
+import com.android.mno.restrodrive.restrodrive.Model.Review;
+import com.android.mno.restrodrive.restrodrive.Model.Reviews;
 import com.android.mno.restrodrive.restrodrive.Model.SearchResponse;
 
 import java.io.IOException;
@@ -79,7 +81,6 @@ public class YelpApiCall implements INearbyPlaces {
                     ArrayList<Category> categoryList = businessArrayList.get(i).getCategories();
                     ArrayList<Hour> hourList = businessArrayList.get(i).getHours();
                     double distance = businessArrayList.get(i).getDistance();
-                    String name = businessArrayList.get(i).getName();
                     String text = businessArrayList.get(i).getText();
                     String price = businessArrayList.get(i).getPrice();
                     int reviewCount = businessArrayList.get(i).getReviewCount();
@@ -99,13 +100,15 @@ public class YelpApiCall implements INearbyPlaces {
                     Log.e(TAG, "categoryList - "+categoryList.get(0).getTitle());
                     //Log.e(TAG, "hourList - "+hourList.get(0).getIsOpenNow());
                     Log.e(TAG, "distance - "+distance);
-                    Log.e(TAG, "name - "+name);
                     Log.e(TAG, "text - "+text);
                     Log.e(TAG, "price - "+price);
                     Log.e(TAG, "reviewCount - "+reviewCount);
                     Log.e(TAG, "rating - "+rating);
                     Log.e(TAG, "coordinates - "+coordinates.getLatitude());
                     //Log.e(TAG, "photoList - "+photoList.get(0));
+
+                    yelpApiBusinessReviews(businessArrayList.get(i).getId(), businessName);
+
                     Log.d(TAG, "-----------------");
                 }
 
@@ -121,6 +124,43 @@ public class YelpApiCall implements INearbyPlaces {
 
         call.enqueue(callback);
     }
+
+    private void yelpApiBusinessReviews(String id, String businessName){
+
+        Call<Reviews> call = yelpFusionApi.getBusinessReviews(id);
+
+        Callback<Reviews> callback = new Callback<Reviews>() {
+            @Override
+            public void onResponse(Call<Reviews> call, Response<Reviews> response) {
+
+                Reviews reviews = response.body();
+
+                try {
+
+                    int totalReviews = reviews.getTotal();
+                    ArrayList<Review> reviewArrayList = reviews.getReviews();
+
+                    Log.e(TAG, "businessName - "+businessName);
+                    Log.e(TAG, "totalReviews - "+totalReviews);
+                    Log.e(TAG, "review text - "+reviewArrayList.get(0).getText());
+                    Log.d(TAG, "...");
+
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+            @Override
+            public void onFailure(Call<Reviews> call, Throwable t) {
+                // HTTP error happened, do something to handle it.
+                Log.e(TAG, "t - "+t);
+            }
+        };
+
+
+        call.enqueue(callback);
+    }
+
 
     @Override
     public List<Business> getNearbyPlaces(double lat, double lon, Filter filter) {

@@ -1,8 +1,6 @@
 package com.android.mno.restrodrive.restrodrive.Model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.yelp.fusion.client.models.Review;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
