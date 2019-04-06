@@ -11,8 +11,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme_with_background">
+        android:theme="@style/AppTheme"
+        android:supportsRtl="true">
 
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
@@ -29,6 +29,7 @@
             android:exported="true"></activity>
 
         <activity android:name=".restrodrive.View.WelcomeActivity"
+            android:theme="@style/AppTheme_with_background"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

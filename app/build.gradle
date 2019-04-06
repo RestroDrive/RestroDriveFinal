@@ -73,7 +73,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
-    implementation 'com.google.android.libraries.places:places:1.0.0'
+    implementation 'io.github.ranga543:yelp-fusion-client:0.1.4'
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin

@@ -26,6 +26,9 @@ import com.akexorcist.googledirection.model.Route;
 import com.akexorcist.googledirection.model.Step;
 import com.akexorcist.googledirection.util.DirectionConverter;
 import com.android.mno.restrodrive.R;
+import com.android.mno.restrodrive.restrodrive.Helper.Filter;
+import com.android.mno.restrodrive.restrodrive.Helper.FirebaseLogin;
+import com.android.mno.restrodrive.restrodrive.Helper.YelpApiCall;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -39,18 +42,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -59,13 +55,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-
-/*import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;*/
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, DirectionCallback {
 
@@ -105,7 +94,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
 
-                showPlaces();
+                YelpApiCall yelpApiCall = new YelpApiCall();
+
+                Filter filter = new Filter();
+                filter.setBusinessType("Restaurants");
+                filter.setGetBusinessSubType("Italian");
+
+                yelpApiCall.getNearbyPlaces(40.666210,-74.409096, filter);
             }
         });
 
@@ -132,11 +127,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case R.id.about:
                 return true;
             case R.id.sign_out:
-                if (FirebaseAuth.getInstance() != null) {
-                    FirebaseAuth.getInstance().signOut();
-                    finish();
+                FirebaseLogin firebaseLogin = new FirebaseLogin(this);
+                firebaseLogin.signOut();
+                finish();
 
-                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -367,64 +361,5 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Intent i = new Intent(this, RestaurantListActivity.class);
 
         startActivity(i);
-    }
-
-    /**
-     * Shows nearby places
-     */
-    private void showPlaces(){
-
-        // Initialize Places.
-        Places.initialize(getApplicationContext(), GOOGLE_MAPS_API_KEY);
-
-        // Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(this);
-
-        // Use fields to define the data types to return.
-        List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG,
-                Place.Field.RATING, Place.Field.TYPES, Place.Field.PHOTO_METADATAS);
-
-        // Use the builder to create a FindCurrentPlaceRequest.
-        FindCurrentPlaceRequest request =
-                FindCurrentPlaceRequest.builder(placeFields).build();
-
-        // Call findCurrentPlace and handle the response (first check that the user has granted permission).
-        if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Task<FindCurrentPlaceResponse> placeResponse = placesClient.findCurrentPlace(request);
-            placeResponse.addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
-                    FindCurrentPlaceResponse response = task.getResult();
-                    for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-
-                        Log.e(TAG, "Place Name "+
-                                placeLikelihood.getPlace().getName());
-                        Log.e(TAG,         "Place Address "+
-                                placeLikelihood.getPlace().getAddress());
-                        Log.e(TAG,       "Place LatLang "+
-                                placeLikelihood.getPlace().getLatLng());
-                        Log.e(TAG,      "Place Rating "+
-                                placeLikelihood.getPlace().getRating());
-                        Log.e(TAG,    "Place Types "+
-                                placeLikelihood.getPlace().getTypes());
-                        Log.e(TAG,   "Place Photo "+
-                                placeLikelihood.getPlace().getPhotoMetadatas());
-                        Log.e(TAG,    "Place Likehood "+
-                                placeLikelihood.getLikelihood());
-
-                        Log.d(TAG, "---------------");
-                    }
-                } else {
-                    Exception exception = task.getException();
-                    if (exception instanceof ApiException) {
-                        ApiException apiException = (ApiException) exception;
-                        Log.e(TAG, "Place not found: " + apiException.getStatusCode());
-                    }
-                }
-            });
-        } else {
-            // A local method to request required permissions;
-            // See https://developer.android.com/training/permissions/requesting
-            getLocationPermission();
-        }
     }
 }

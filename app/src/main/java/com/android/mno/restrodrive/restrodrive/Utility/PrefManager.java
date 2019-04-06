@@ -28,6 +28,11 @@ public class PrefManager {
         editor.commit();
     }
 
+    public void removeAuthLogin(){
+        editor.putBoolean(Constants.IS_AUTH_ALREADY_LOGIN, false);
+        editor.commit();
+    }
+
     public boolean isAuthAlreadyLogin(){
         return pref.getBoolean(Constants.IS_AUTH_ALREADY_LOGIN, false);
     }

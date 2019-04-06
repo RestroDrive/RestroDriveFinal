@@ -66,7 +66,8 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
 
                 Utility.getInstance().hideSoftKeyboard(getActivity());
 
-                FirebaseLogin firebaseLogin = new FirebaseLogin(getContext(), loginEventListener);
+                FirebaseLogin firebaseLogin = new FirebaseLogin(getContext());
+                firebaseLogin.setLoginEventListener(loginEventListener);
                 firebaseLogin.signIn(email, password);
 
             }else{
@@ -83,11 +84,17 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
 
         if(v.getId() == R.id.emailSignInButton){
+            validateLoginDetailsForDemo();
             validateLoginDetails();
         }else  if(v.getId() == R.id.facebook_login){
             Utility.getInstance().showSnackbar(fragmentView,"Yet to implement", getContext());
         }else  if(v.getId() == R.id.google_login){
             GoogleLogin.getInstance().googleSignIn(getActivity());
         }
+    }
+
+    private void validateLoginDetailsForDemo() {
+
+
     }
 }

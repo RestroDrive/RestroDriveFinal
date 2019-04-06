@@ -35,11 +35,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginEventListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTheme(R.style.AppTheme);
+        //setTheme(R.style.AppTheme);
 
         setContentView(R.layout.activity_login);
 
-        firebaseLogin = new FirebaseLogin(this, this);
+        firebaseLogin = new FirebaseLogin(this);
+        firebaseLogin.setLoginEventListener(this);
 
         initLoginPagerAdapter();
         checkSharedPrefAuth();
@@ -65,13 +66,9 @@ public class LoginActivity extends AppCompatActivity implements ILoginEventListe
         if (requestCode == Constants.GOOGLE_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-
-                Log.e(TAG, "1");
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.e(TAG, "2");
                 firebaseLogin.firebaseAuthWithGoogle(account);
-                Log.e(TAG, "3");
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, getString(R.string.google_sign_in_failed), e);
@@ -156,7 +153,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginEventListe
     protected void onDestroy() {
         super.onDestroy();
 
-        firebaseLogin = new FirebaseLogin(this, this);
         firebaseLogin.onDestroyCall();
     }
 

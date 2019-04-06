@@ -72,7 +72,8 @@ public class SignUpFragment extends Fragment {
 
                     Utility.getInstance().hideSoftKeyboard(getActivity());
 
-                    FirebaseLogin firebaseLogin = new FirebaseLogin(getContext(), loginEventListener);
+                    FirebaseLogin firebaseLogin = new FirebaseLogin(getContext());
+                    firebaseLogin.setLoginEventListener(loginEventListener);
                     firebaseLogin.signUp(email, password, userName);
 
                 } else {

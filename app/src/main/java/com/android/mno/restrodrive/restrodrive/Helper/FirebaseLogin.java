@@ -9,6 +9,8 @@ import android.widget.Toast;
 import com.android.mno.restrodrive.R;
 import com.android.mno.restrodrive.restrodrive.Callbacks.ILoginEventListener;
 import com.android.mno.restrodrive.restrodrive.Model.UserDetails;
+import com.android.mno.restrodrive.restrodrive.Utility.Constants;
+import com.android.mno.restrodrive.restrodrive.Utility.PrefManager;
 import com.android.mno.restrodrive.restrodrive.Utility.ProgressDialog;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,13 +36,17 @@ public class FirebaseLogin {
     private Context context;
     private ILoginEventListener loginEventListener;
 
-    public FirebaseLogin(Context context, ILoginEventListener loginEventListener) {
+    public FirebaseLogin(Context context) {
         this.context = context;
-        this.loginEventListener = loginEventListener;
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
     }
+
+    public void setLoginEventListener(ILoginEventListener loginEventListener){
+        this.loginEventListener = loginEventListener;
+    }
+
 
     /**
      * Firebase sign in method
@@ -158,6 +164,10 @@ public class FirebaseLogin {
 
     public void signOut() {
         FirebaseAuth.getInstance().signOut();
+
+        PrefManager prefManager = new PrefManager(context, Constants.LOGIN_SHARED_PREF_KEY);
+        prefManager.removeAuthLogin();
+        onDestroyCall();
     }
 
     /**
