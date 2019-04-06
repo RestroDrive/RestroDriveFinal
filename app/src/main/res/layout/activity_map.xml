@@ -34,7 +34,7 @@
         <ImageView android:id="@+id/origin_search_image"
             style="@style/Location_Search_Image_Button"/>
 
-        <EditText android:id="@+id/origin_search_input"
+        <AutoCompleteTextView android:id="@+id/origin_search_input"
             android:layout_toEndOf="@id/origin_search_image"
             style="@style/Location_Search_Text_Button"
             android:hint="Enter Origin Address, City, ZipCode"/>
@@ -52,7 +52,7 @@
         <ImageView android:id="@+id/dest_search_image"
             style="@style/Location_Search_Image_Button"/>
 
-        <EditText android:id="@+id/dest_search_input"
+        <AutoCompleteTextView android:id="@+id/dest_search_input"
             android:layout_toEndOf="@id/dest_search_image"
             style="@style/Location_Search_Text_Button"
             android:hint="Enter Destination Address, City, ZipCode"/>

@@ -113,8 +113,7 @@ public class YelpApiCall implements INearbyPlaces {
                     Log.d(TAG, "-----------------");
                 }
 
-                //return businessArrayList;
-
+                getList(businessArrayList);
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -169,5 +168,10 @@ public class YelpApiCall implements INearbyPlaces {
     public List<Business> getNearbyPlaces(double lat, double lon, Filter filter) {
 
         return yelpApiBusinessSearch(lat, lon, filter);
+    }
+
+    private List<Business> getList(List<Business> business){
+
+        return business;
     }
 }
