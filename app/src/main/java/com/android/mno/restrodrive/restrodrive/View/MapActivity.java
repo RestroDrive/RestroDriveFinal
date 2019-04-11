@@ -2,7 +2,6 @@ package com.android.mno.restrodrive.restrodrive.View;
 
 import android.Manifest;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,7 +17,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +33,7 @@ import com.android.mno.restrodrive.R;
 import com.android.mno.restrodrive.restrodrive.Callbacks.INearbyPlaces;
 import com.android.mno.restrodrive.restrodrive.Helper.Filter;
 import com.android.mno.restrodrive.restrodrive.Helper.FirebaseLogin;
+import com.android.mno.restrodrive.restrodrive.Helper.PlacesHelper;
 import com.android.mno.restrodrive.restrodrive.Helper.YelpApiCall;
 import com.android.mno.restrodrive.restrodrive.Model.Business;
 import com.android.mno.restrodrive.restrodrive.Model.MapAddress;
@@ -93,17 +92,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private LatLng mOriginCoordinates;
     private FragmentManager fragmentManager;
 
-    private String DIRECTION_FRAGMENT = "DirectionFragment";
-    private String MAP_FRAGMENT = "MapFragment";
+    private final String DIRECTION_FRAGMENT = "DirectionFragment";
+    private final String MAP_FRAGMENT = "MapFragment";
+    private final String BUSINESS_FRAGMENT = "BusinessListFragment";
 
     private final int GPS_REQUEST_CODE = 300;
     private double currentLat;
     private double currentLng;
 
-    private String businessType = "Restaurant";
-    private String subBusinessType = "Indian";
-
     private SupportMapFragment mapFragment;
+    private boolean placesFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +149,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Log.d(TAG, "init: initializing");
 
         findViewById(R.id.destination_fb_button).setOnClickListener(this);
+        findViewById(R.id.business_list_bt).setOnClickListener(this);
 
         Places.initialize(getApplicationContext(), GOOGLE_MAPS_API_KEY);
 
@@ -267,7 +266,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void initMap(){
 
-        SupportMapFragment mapFragment = switchToMapFragment();
+        switchToMapFragment();
 
         mapFragment.getMapAsync(MapActivity.this);
     }
@@ -339,18 +338,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
-    public void nextClick(View v) {
-        Intent i = new Intent(this, RestaurantListActivity.class);
+    @Override
+    public void findNearbyPlaces(List<Business> businessArrayList) {
 
-        startActivity(i);
+        MapViewModel viewModel = ViewModelProviders.of(this).get(MapViewModel.class);
+        viewModel.setBusinessLiveData(businessArrayList);
+
+        placesFlag = true;
+
+        findViewById(R.id.business_list_bt).setVisibility(View.VISIBLE);
+
+        //Set Markers on the Map
+        setMarkersOnMap(businessArrayList);
     }
 
-    @Override
-    public void getNearbyPlaces(List<Business> businessArrayList) {
-
-        String businessName = businessArrayList.get(0).getName();
-
-        Log.e(TAG, "In MapActivity first businessName - "+businessName);
+    private void setMarkersOnMap(List<Business> businessArrayList) {
 
         for(int i =0 ; i<businessArrayList.size(); i++){
 
@@ -380,8 +382,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         int id = v.getId();
 
         if (id == R.id.destination_fb_button) {
-
             switchToDirectionFragment(findCurrentAddressUsingLatLng());
+
+        } else if (id == R.id.business_list_bt){
+            switchToBusinessListFragment();
         }
     }
 
@@ -415,21 +419,34 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         directionFragment.setDefaultSource(currentAddress);
 
-        findViewById(R.id.btn_next).setVisibility(View.GONE);
+        findViewById(R.id.business_list_bt).setVisibility(View.GONE);
         findViewById(R.id.destination_fb_button).setVisibility(View.GONE);
     }
 
-    private SupportMapFragment switchToMapFragment(){
+    private void switchToMapFragment(){
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container_layout, mapFragment, MAP_FRAGMENT);
         transaction.addToBackStack(null);
         transaction.commit();
 
-        findViewById(R.id.btn_next).setVisibility(View.VISIBLE);
+        if(placesFlag)
+            findViewById(R.id.business_list_bt).setVisibility(View.VISIBLE);
         findViewById(R.id.destination_fb_button).setVisibility(View.VISIBLE);
+    }
 
-        return mapFragment;
+    private void switchToBusinessListFragment(){
+
+        BusinessListFragment businessListFragment = new BusinessListFragment();
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.exit_to_bottom);
+        transaction.replace(R.id.fragment_container_layout, businessListFragment, BUSINESS_FRAGMENT);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        findViewById(R.id.business_list_bt).setVisibility(View.GONE);
+        findViewById(R.id.destination_fb_button).setVisibility(View.GONE);
     }
 
     private void pointToSource(String sourceAddress){
@@ -456,18 +473,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         moveCamera(mDestinationCoordinates, ZOOM_OUT_TO);
 
-        findPlaces(mDestinationCoordinates.latitude, mDestinationCoordinates.longitude);
-    }
+        placesFlag = false;
 
-    private void findPlaces(double lat, double lng){
-
-        YelpApiCall yelpApiCall = new YelpApiCall(MapActivity.this);
-
-        Filter filter = new Filter();
-        filter.setBusinessType(businessType);
-        filter.setGetBusinessSubType(subBusinessType);
-
-        yelpApiCall.yelpApiBusinessSearch(lat,lng, filter);
+        PlacesHelper.getInstance().findNearbyPlaces(mDestinationCoordinates.latitude,
+                mDestinationCoordinates.longitude, this);
     }
 
     public void checkGPSEnable() {
@@ -511,6 +520,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             //Initialize the Map
             initMap();
 
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        if(mapFragment != null && mapFragment.isVisible()){
+            if(placesFlag)
+                findViewById(R.id.business_list_bt).setVisibility(View.VISIBLE);
+            findViewById(R.id.destination_fb_button).setVisibility(View.VISIBLE);
         }
     }
 }

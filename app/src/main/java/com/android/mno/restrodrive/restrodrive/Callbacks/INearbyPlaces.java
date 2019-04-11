@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface INearbyPlaces {
 
-    void getNearbyPlaces(List<Business> businessArrayList);
+    void findNearbyPlaces(List<Business> businessArrayList);
 
 }

@@ -71,7 +71,7 @@ public class YelpApiCall {
                 ArrayList<Business> businessArrayList = searchResponse.getBusinesses();
 
                 Log.e(TAG, "totalNumberOfResult - "+totalNumberOfResult);
-                Log.d(TAG, "-----------------");
+                /*Log.d(TAG, "-----------------");
 
                 for(int i =0 ; i<businessArrayList.size(); i++){
                     String businessName = businessArrayList.get(i).getName();
@@ -114,9 +114,9 @@ public class YelpApiCall {
                     yelpApiBusinessReviews(businessArrayList.get(i).getId(), businessName);
 
                     Log.d(TAG, "-----------------");
-                }
+                }*/
 
-                iNearbyPlaces.getNearbyPlaces(businessArrayList);
+                iNearbyPlaces.findNearbyPlaces(businessArrayList);
 
             }
             @Override

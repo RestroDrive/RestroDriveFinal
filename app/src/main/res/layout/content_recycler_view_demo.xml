@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".restrodrive.View.RestaurantListActivity"
-    tools:showIn="@layout/activity_resto_list_view_demo">
+    tools:context=".restrodrive.View.BusinessListFragment"
+    tools:showIn="@layout/business_list_fragment">
 
 </android.support.constraint.ConstraintLayout>

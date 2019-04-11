@@ -39,7 +39,7 @@
         </activity>
 
         <activity
-            android:name=".restrodrive.View.RestaurantListActivity"
+            android:name=".restrodrive.View.BusinessListFragment"
             android:label="@string/title_activity_restaurantlist_view"></activity>
         <activity
             android:name=".restrodrive.View.LoginActivity"

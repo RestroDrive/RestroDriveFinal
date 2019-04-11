@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cv">
+        android:id="@+id/business_card_view">
 
         <RelativeLayout
             android:layout_width="match_parent"

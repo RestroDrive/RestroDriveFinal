@@ -1,6 +1,9 @@
 package com.android.mno.restrodrive.restrodrive.Utility;
 
+import com.android.mno.restrodrive.restrodrive.Model.Business;
 import com.android.mno.restrodrive.restrodrive.Model.MapAddress;
+
+import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -8,13 +11,26 @@ import androidx.lifecycle.ViewModel;
 
 public class MapViewModel extends ViewModel {
 
-    private final MutableLiveData<MapAddress> selectedAddress = new MutableLiveData<>();
+    //For passing selected addresses to MapActivity
+    private final MutableLiveData<MapAddress> selectedAddressLiveData = new MutableLiveData<>();
 
     public void selectedAddress (MapAddress mapAddress) {
-        selectedAddress.setValue(mapAddress);
+        selectedAddressLiveData.setValue(mapAddress);
     }
 
     public LiveData<MapAddress> getSelectedAddress() {
-        return selectedAddress;
+        return selectedAddressLiveData;
+    }
+
+
+    //For passing Business object list to BusinessFragment
+    private final MutableLiveData<List<Business>> businessLiveData = new MutableLiveData<>();
+
+    public void setBusinessLiveData (List<Business> business) {
+        businessLiveData.setValue(business);
+    }
+
+    public LiveData<List<Business>> getBusinessLiveData() {
+        return businessLiveData;
     }
 }
