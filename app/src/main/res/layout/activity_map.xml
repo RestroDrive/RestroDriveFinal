@@ -6,65 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".restrodrive.View.MapActivity">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
+        android:id="@+id/fragment_container_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/map"
-        tools:context=".MapsActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Restaurants"
         android:layout_below="@+id/toolbar"
-        android:layout_toRightOf="@+id/btn_next"
-        android:id="@+id/btnRestaurant"/>
+        android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:elevation="10dp"
-        android:background="@drawable/white_border"
-        android:layout_above="@+id/dest_search_layout"
-        android:id="@+id/origin_search_layout">
+       <!-- <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/map_fragment"
+            tools:context=".MapsActivity"
+            android:name="com.google.android.gms.maps.SupportMapFragment"/>-->
 
-        <ImageView android:id="@+id/origin_search_image"
-            style="@style/Location_Search_Image_Button"/>
-
-        <AutoCompleteTextView android:id="@+id/origin_search_input"
-            android:layout_toEndOf="@id/origin_search_image"
-            style="@style/Location_Search_Text_Button"
-            android:hint="Enter Origin Address, City, ZipCode"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:elevation="10dp"
-        android:background="@drawable/white_border"
-        android:layout_alignParentBottom="true"
-        android:id="@id/dest_search_layout">
-
-        <ImageView android:id="@+id/dest_search_image"
-            style="@style/Location_Search_Image_Button"/>
-
-        <AutoCompleteTextView android:id="@+id/dest_search_input"
-            android:layout_toEndOf="@id/dest_search_image"
-            style="@style/Location_Search_Text_Button"
-            android:hint="Enter Destination Address, City, ZipCode"/>
     </RelativeLayout>
 
     <Button
         android:id="@+id/btn_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
         android:text="Next"
+        android:layout_below="@+id/toolbar"
         android:onClick="nextClick"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/destination_fb_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="70dp"
+        android:layout_marginEnd="15dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

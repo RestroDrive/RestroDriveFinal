@@ -84,17 +84,11 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
 
         if(v.getId() == R.id.emailSignInButton){
-            validateLoginDetailsForDemo();
             validateLoginDetails();
         }else  if(v.getId() == R.id.facebook_login){
             Utility.getInstance().showSnackbar(fragmentView,"Yet to implement", getContext());
         }else  if(v.getId() == R.id.google_login){
             GoogleLogin.getInstance().googleSignIn(getActivity());
         }
-    }
-
-    private void validateLoginDetailsForDemo() {
-
-
     }
 }
