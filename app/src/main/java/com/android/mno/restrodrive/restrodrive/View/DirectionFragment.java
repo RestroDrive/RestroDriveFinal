@@ -61,6 +61,9 @@ public class DirectionFragment extends Fragment implements View.OnClickListener 
         if(sourceAddress != null)
             ((TextView)fragmentView.findViewById(R.id.source_text)).setText(sourceAddress);
 
+        if(destinationAddress != null)
+            ((TextView)fragmentView.findViewById(R.id.destination_text)).setText(destinationAddress);
+
         return fragmentView;
     }
 

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.mno.restrodrive.R;
-import com.android.mno.restrodrive.restrodrive.Helper.Restaurant;
 import com.android.mno.restrodrive.restrodrive.Model.Business;
 import com.android.mno.restrodrive.restrodrive.View.BusinessListFragment;
 import com.bumptech.glide.Glide;
@@ -26,14 +25,15 @@ public class BusinessRecyclerAdapter extends RecyclerView.Adapter<BusinessRecycl
     private Context context;
 
     public static class BusinessViewHolder extends RecyclerView.ViewHolder {
-        CardView businessCardView;
-        TextView businessName;
-        TextView businessStar;
-        TextView businessAddress;
-        ImageView businessPhoto;
-        ImageView arrowDown;
 
-        BusinessViewHolder(View itemView) {
+        public CardView businessCardView;
+        public TextView businessName;
+        public TextView businessStar;
+        public TextView businessAddress;
+        public ImageView businessPhoto;
+        public ImageView arrowDown;
+
+        public BusinessViewHolder(View itemView) {
             super(itemView);
             businessCardView = itemView.findViewById(R.id.business_card_view);
             businessName = itemView.findViewById(R.id.resto_name);
@@ -46,18 +46,18 @@ public class BusinessRecyclerAdapter extends RecyclerView.Adapter<BusinessRecycl
                 @Override
                 public void onClick(View v)
                 {
-                    Toast.makeText(v.getContext(),"Let's Go to " + businessName.getText(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(v.getContext(),"Let's Go to " + businessName.getText(), Toast.LENGTH_LONG).show();
                     if(businessStar.getVisibility() != View.VISIBLE) {
                         businessStar.setVisibility(View.VISIBLE);
                         businessName.setTextSize(30);
                         businessAddress.setVisibility(View.VISIBLE);
-                        businessPhoto.setVisibility(View.VISIBLE);
+                        //businessPhoto.setVisibility(View.VISIBLE);
                         arrowDown.setRotation(180);
 
                     } else {
                         businessStar.setVisibility(View.GONE);
                         businessAddress.setVisibility(View.GONE);
-                        businessPhoto.setVisibility(View.GONE);
+                        //businessPhoto.setVisibility(View.GONE);
                         arrowDown.setRotation(360);
                     }
                 }
@@ -68,10 +68,6 @@ public class BusinessRecyclerAdapter extends RecyclerView.Adapter<BusinessRecycl
     public BusinessRecyclerAdapter(List<Business> businessesList, Context context){
         this.businessesList = businessesList;
         this.context = context;
-    }
-
-    public void updatedBusinessList(List<Business> businessesList){
-        this.businessesList = businessesList;
     }
 
     @Override
@@ -89,7 +85,7 @@ public class BusinessRecyclerAdapter extends RecyclerView.Adapter<BusinessRecycl
     public void onBindViewHolder(BusinessViewHolder businessViewHolder, int i) {
 
         businessViewHolder.businessName.setText(businessesList.get(i).getName());
-        businessViewHolder.businessStar.setText(businessesList.get(i).getReviewCount());
+        businessViewHolder.businessStar.setText(Integer.toString(businessesList.get(i).getReviewCount()));
 
         String address = businessesList.get(i).getLocation().getAddress1();
         businessViewHolder.businessAddress.setText(address);

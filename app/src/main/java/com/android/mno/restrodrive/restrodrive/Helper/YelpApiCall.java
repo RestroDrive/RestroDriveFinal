@@ -3,11 +3,8 @@ package com.android.mno.restrodrive.restrodrive.Helper;
 import android.util.Log;
 
 import com.android.mno.restrodrive.restrodrive.Callbacks.INearbyPlaces;
+import com.android.mno.restrodrive.restrodrive.Callbacks.YelpFusionApi;
 import com.android.mno.restrodrive.restrodrive.Model.Business;
-import com.android.mno.restrodrive.restrodrive.Model.Category;
-import com.android.mno.restrodrive.restrodrive.Model.Coordinates;
-import com.android.mno.restrodrive.restrodrive.Model.Hour;
-import com.android.mno.restrodrive.restrodrive.Model.Location;
 import com.android.mno.restrodrive.restrodrive.Model.Review;
 import com.android.mno.restrodrive.restrodrive.Model.Reviews;
 import com.android.mno.restrodrive.restrodrive.Model.SearchResponse;

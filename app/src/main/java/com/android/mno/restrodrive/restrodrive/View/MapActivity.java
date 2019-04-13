@@ -110,7 +110,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         init();
 
-        // Call for location if GPS is enable
         askForLocationPermission();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -135,6 +134,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case R.id.sign_out:
                 FirebaseLogin firebaseLogin = new FirebaseLogin(this);
                 firebaseLogin.signOut();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
                 finish();
                 return true;
             default:
@@ -235,6 +236,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return null;
     }
 
+    /**
+     * function to check for location permission
+     */
     private void askForLocationPermission() {
         String[] permissions = {ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
@@ -349,10 +353,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         findViewById(R.id.business_list_bt).setVisibility(View.VISIBLE);
 
         //Set Markers on the Map
-        setMarkersOnMap(businessArrayList);
+        addMarkersOnMap(businessArrayList);
     }
 
-    private void setMarkersOnMap(List<Business> businessArrayList) {
+    /**
+     * Adds Markers on map after fetching business list from the yelp API
+     * @param businessArrayList
+     */
+    private void addMarkersOnMap(List<Business> businessArrayList) {
 
         for(int i =0 ; i<businessArrayList.size(); i++){
 
@@ -389,6 +397,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Finds address using Lat & Lng
+     * @return
+     */
     private String findCurrentAddressUsingLatLng() {
 
         String currentAddress = null;
@@ -408,6 +420,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return currentAddress;
     }
 
+    /**
+     * Switch to Direction Fragment
+     * @param currentAddress
+     */
     private void switchToDirectionFragment(String currentAddress){
 
         DirectionFragment directionFragment = new DirectionFragment();
@@ -423,6 +439,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         findViewById(R.id.destination_fb_button).setVisibility(View.GONE);
     }
 
+    /**
+     * Switch to Map Fragment
+     */
     private void switchToMapFragment(){
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -435,6 +454,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         findViewById(R.id.destination_fb_button).setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Switch to Business Fragment
+     */
     private void switchToBusinessListFragment(){
 
         BusinessListFragment businessListFragment = new BusinessListFragment();
@@ -449,6 +471,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         findViewById(R.id.destination_fb_button).setVisibility(View.GONE);
     }
 
+    /**
+     * Sets point to source
+     * @param sourceAddress
+     */
     private void pointToSource(String sourceAddress){
 
         if(sourceAddress != null)
@@ -461,6 +487,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //moveCamera(mOriginCoordinates, DEFAULT_ZOOM);
     }
 
+    /**
+     * Sets point to destination
+     * @param destinationAddress
+     */
     private void pointToDestination(String destinationAddress){
 
         LatLng mDestinationCoordinates = geoLocateLocation(destinationAddress);
@@ -475,10 +505,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         placesFlag = false;
 
-        PlacesHelper.getInstance().findNearbyPlaces(mDestinationCoordinates.latitude,
+        PlacesHelper.getInstance().findPlaces(mDestinationCoordinates.latitude,
                 mDestinationCoordinates.longitude, this);
     }
 
+    /**
+     * Check if GPS is enable or not
+     */
     public void checkGPSEnable() {
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -490,6 +523,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Shows dialog for enabling GPS
+     */
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")

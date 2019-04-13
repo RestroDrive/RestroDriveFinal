@@ -6,38 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".restrodrive.View.DirectionFragment">
 
+    <ImageView
+        android:id="@+id/source_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:src="@android:drawable/ic_menu_directions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/source_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginBottom="8dp"
         android:hint="@string/enter_the_source"
+        app:layout_constraintBottom_toBottomOf="@+id/source_image_view"
+        app:layout_constraintStart_toStartOf="@+id/source_image_view"/>
+
+    <ImageView
+        android:id="@+id/destination_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@android:drawable/ic_menu_myplaces"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/source_image_view" />
 
     <TextView
         android:id="@+id/destination_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="12dp"
         android:hint="@string/enter_the_destination"
-        app:layout_constraintTop_toBottomOf="@+id/source_text"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/destination_image_view"
+        app:layout_constraintStart_toStartOf="@+id/destination_image_view" />
 
     <Button
         android:id="@+id/find_route_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="136dp"
         android:text="@string/find_route"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/destination_text" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/destination_image_view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,7 @@ public class PlacesHelper {
         return placesHelperInstance;
     }
 
-    public void findNearbyPlaces(double lat, double lng, INearbyPlaces iNearbyPlaces){
+    public void findPlaces(double lat, double lng, INearbyPlaces iNearbyPlaces){
 
         YelpApiCall yelpApiCall = new YelpApiCall(iNearbyPlaces);
 

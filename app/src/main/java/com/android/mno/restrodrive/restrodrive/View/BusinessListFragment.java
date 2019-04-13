@@ -40,20 +40,15 @@ public class BusinessListFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         businessRecycleView.setLayoutManager(llm);
 
-        BusinessRecyclerAdapter adapter = new BusinessRecyclerAdapter(businesses, getContext());
-        //businessRecycleView.setAdapter(adapter);
-
-        MapViewModel viewModel = ViewModelProviders.of(this).get(MapViewModel.class);
+        MapViewModel viewModel = ViewModelProviders.of(getActivity()).get(MapViewModel.class);
 
         viewModel.getBusinessLiveData().observe(this, new Observer<List<Business>>() {
             @Override
             public void onChanged(List<Business> businesses) {
-                Log.e(TAG, "onChanged: Inside View Model" + businesses.get(0).getName());
-                adapter.updatedBusinessList(businesses);
-                adapter.notifyDataSetChanged();
+                BusinessRecyclerAdapter adapter = new BusinessRecyclerAdapter(businesses, getContext());
+                businessRecycleView.setAdapter(adapter);
             }
         });
-
 
         return fragmentView;
     }
